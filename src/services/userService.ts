@@ -18,3 +18,8 @@ export const getUserById = (userId: string) => {
 export const deleteById = async(userId: string) => {
     return await User.destroy({where: {id: userId}});
 }
+
+export const updateById = async(userId: string, userData: IUser) => {
+    if(await User.findByPk(userId) === null) return false;
+    return await User.update(userData, { where: { id: userId } });
+};

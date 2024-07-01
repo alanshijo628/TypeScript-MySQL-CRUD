@@ -4,6 +4,7 @@ import {
   deleteById,
   getUserById,
   getUsers,
+  updateById,
 } from "../services/userService";
 
 export interface IUser {
@@ -61,7 +62,25 @@ export const deleteUser = async (req: Request, res: Response) => {
       });
     res.status(200).json({
       message: "User deleted successfully",
-      data: deletedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error });
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const userData = req.body;
+    const updatedUser = await updateById(userId, userData);
+    console.log(updatedUser)
+    if (!updatedUser)
+      return res.status(400).json({
+        message: "Invalid user",
+      });
+    res.status(200).json({
+      message: "User updated successfully"
     });
   } catch (error) {
     console.error(error);
